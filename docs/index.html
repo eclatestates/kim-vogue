@@ -651,6 +651,10 @@ section { padding: var(--section-y) var(--section-x); }
   .contact-form button:hover { transform: translateY(-3px); color: var(--deep); }
 }
 .contact-form button span { position: relative; z-index: 1; }
+.contact-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .form-success {
   display: none; text-align: center;
@@ -667,14 +671,15 @@ section { padding: var(--section-y) var(--section-x); }
   font-size: clamp(0.82rem, 2vw, 0.9rem); margin-top: 0.5rem;
 }
 
-.formspree-note {
-  max-width: min(540px, 100%); margin: 0.85rem auto 0;
-  font-size: clamp(0.68rem, 1.5vw, 0.75rem);
-  color: rgba(210,230,238,0.22); line-height: 1.6; text-align: center;
+.form-error {
+  display: none; text-align: center;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: rgba(196, 91, 91, 0.1); border: 1px solid rgba(196, 91, 91, 0.3);
+  border-radius: 6px; color: #f48484;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  max-width: min(540px, 100%); margin: 1rem auto 0;
   position: relative; z-index: 1;
 }
-.formspree-note a { color: var(--glacier); text-decoration: none; }
-.formspree-note a:hover { text-decoration: underline; }
 
 .contact-links {
   display: flex; justify-content: center; flex-wrap: wrap; gap: clamp(1rem, 4vw, 2rem);
@@ -775,7 +780,7 @@ footer {
     <div class="section-label reveal">About Me</div>
     <h2 class="section-title reveal delay-1">The person behind the words</h2>
     <p class="reveal delay-2">I'm passionate about crafting words that actually convert. Words that move people to act. I combine critical and strategic thinking with persuasive writing to create content that connects with the right audience at the right moment.</p>
-    <p class="reveal delay-3">Whether it's a high converting sales page, captivating ad copy, or a homepage that hooks visitors in seconds,I turn creative ideas into real, measurable results for every project.</p>
+    <p class="reveal delay-3">Whether it's a high converting sales page, captivating ad copy, or a homepage that hooks visitors in seconds, I turn creative ideas into real, measurable results for every project.</p>
     <div class="about-stats reveal delay-4">
       <div><div class="stat-num">1+</div><div class="stat-label">Projects Done</div></div>
       <div><div class="stat-num">100%</div><div class="stat-label">Client Satisfaction</div></div>
@@ -874,17 +879,11 @@ footer {
   <h2 class="section-title reveal delay-1">Let's work together</h2>
   <p class="reveal delay-2">Have a project in mind? Send me a message and let's talk about converting your visitors into customers.</p>
 
-  <form
-    class="contact-form reveal delay-3"
-    id="contactForm"
-    action="https://formspree.io/f/YOUR_FORM_ID"
-    method="POST"
-    onsubmit="handleSubmit(event)"
-  >
-    <input type="text" name="name" placeholder="Your Name" required autocomplete="name">
-    <input type="email" name="email" placeholder="Your Email" required autocomplete="email">
+  <form class="contact-form reveal delay-3" id="contactForm">
+    <input type="text" name="from_name" placeholder="Your Name" required autocomplete="name">
+    <input type="email" name="reply_to" placeholder="Your Email" required autocomplete="email">
     <input type="text" name="project_type" placeholder="Project Type (e.g. Sales Page, Web Copy, Homepage Copy)">
-    <textarea name="message" placeholder="Tell me about your project..." rows="5"></textarea>
+    <textarea name="message" placeholder="Tell me about your project..." rows="5" required></textarea>
     <button type="submit"><span id="btnText">Send Message</span></button>
   </form>
 
@@ -893,16 +892,27 @@ footer {
     <p>I'll get back to you within 24 hours.</p>
   </div>
 
- 
+  <div class="form-error" id="formError">
+    Oops! Something went wrong. Please try again or email me directly.
+  </div>
 
   <div class="contact-links reveal delay-4">
-    <a href="mailto:yusufeniola883@email.com">Email</a>
-    <a href="#" rel="https://ng.linkedin.com/in/yusuf-eniola.a05b3839a">LinkedIn</a>
-    <a href="#" rel="https://x.com/gripcho">Twitter / X</a>
+    <a href="mailto:yusufeniola883@gmail.com">Email</a>
+    <a href="https://ng.linkedin.com/in/yusuf-eniola-a05b3839a" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="https://x.com/gripcho" target="_blank" rel="noopener">Twitter / X</a>
   </div>
 </section>
 
-<footer>© 2024 Eniola · Copywriter, homepage & Sales Page Designer</footer>
+<footer>© 2024 Eniola · Copywriter, Homepage & Sales Page Designer</footer>
+
+<!-- EmailJS SDK -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script type="text/javascript">
+  // Initialize EmailJS with your Public Key
+  (function(){
+    emailjs.init("sCpThQy87PTWzCDpo"); // Replace with your actual public key
+  })();
+</script>
 
 <script>
 /* ── CUSTOM CURSOR (only on pointer:fine devices) ── */
@@ -998,29 +1008,47 @@ function previewPhoto(input) {
   reader.readAsDataURL(file);
 }
 
-/* ── FORM SUBMIT ── */
-async function handleSubmit(e) {
+/* ── EMAILJS FORM SUBMIT ── */
+const contactForm = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+const formError = document.getElementById('formError');
+const btnText = document.getElementById('btnText');
+
+contactForm.addEventListener('submit', function(e) {
   e.preventDefault();
-  const form=e.target;
-  const btn=document.getElementById('btnText');
-  btn.textContent='Sending...';
-  try {
-    const res=await fetch(form.action,{
-      method:'POST', body:new FormData(form), headers:{'Accept':'application/json'}
+  
+  // Disable button and show loading state
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+  btnText.textContent = 'Sending...';
+  
+  // Hide any previous messages
+  formSuccess.style.display = 'none';
+  formError.style.display = 'none';
+  
+  // Send email using EmailJS
+  emailjs.sendForm('service_7raxx1e', 'template_ilmawcv', this)
+    .then(function(response) {
+      console.log('SUCCESS!', response.status, response.text);
+      
+      // Show success message
+      contactForm.style.display = 'none';
+      formSuccess.style.display = 'block';
+      
+      // Reset form
+      contactForm.reset();
+      
+    }, function(error) {
+      console.log('FAILED...', error);
+      
+      // Show error message
+      formError.style.display = 'block';
+      
+      // Re-enable button
+      submitBtn.disabled = false;
+      btnText.textContent = 'Send Message';
     });
-    if (res.ok) {
-      form.style.display='none';
-      document.getElementById('formSuccess').style.display='block';
-      form.reset();
-    } else {
-      btn.textContent='Try Again';
-      setTimeout(()=>btn.textContent='Send Message',2000);
-    }
-  } catch {
-    btn.textContent='Try Again';
-    setTimeout(()=>btn.textContent='Send Message',2000);
-  }
-}
+});
 </script>
 </body>
 </html>
