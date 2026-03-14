@@ -523,7 +523,7 @@
             background: url('https://images.unsplash.com/photo-1519014816548-bf5fe059798b?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
         }
 
-        .about::before { content: ''; position: absolute; inset: 0; background: rgba(220, 219, 219, 0.93); }
+        .about::before { content: ''; position: absolute; inset: 0; background: rgba(255, 255, 255, 0.93); }
         .about .container { position: relative; z-index: 1; }
         .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 
@@ -711,164 +711,53 @@
         .lightbox-prev { left: 25px; }
         .lightbox-next { right: 25px; }
 
-      /* ============================================
-   SERVICES SECTION — FIXED
-============================================ */
-.services {
-    position: relative;
-    padding: 120px 0;
-    background: url('images/logo_2-removebg-preview.png') center/cover no-repeat fixed;
-}
+    /* ============================================
+           SERVICES SECTION
+           REPLACE: Background image URL below
+        ============================================ */
+        .services {
+            position:relative; padding:120px 0;
+            background:url('https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+        }
+        .services::before { content:''; position:absolute; inset:0; background:rgba(255,255,255,.94); }
+        .services .container { position:relative; z-index:1; }
 
-/* FIX 1: Changed from gray to white overlay */
-.services::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.94);
-}
-
-.services .container {
-    position: relative;
-    z-index: 1;
-}
-
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-}
-
-/* FIX 2: Added solid background + z-index to prevent bleed */
-.service-card {
-    background: var(--white);
-    border-radius: 20px;
-    padding: 40px 28px;
-    text-align: center;
-    box-shadow: var(--shadow);
-    transition: var(--transition);
-    border: 1px solid rgba(183, 110, 121, 0.06);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    isolation: isolate;           /* prevents color bleed between cards */
-    -webkit-backface-visibility: hidden;
-    backface-visibility: hidden;  /* prevents rendering glitches */
-}
-
-.service-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, var(--primary), var(--gold));
-    transform: scaleX(0);
-    transition: transform 0.4s ease;
-    transform-origin: left;
-    z-index: 2;
-}
-
-.service-card:hover::before {
-    transform: scaleX(1);
-}
-
-/* FIX 3: Added margin-bottom so cards don't overlap when lifted */
-.service-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-lg);
-    z-index: 10;                  /* hovered card stays on top */
-    margin-bottom: 10px;          /* compensates for the lift */
-}
-
-.service-icon {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 18px;
-    font-size: 1.5rem;
-    color: var(--primary);
-    transition: var(--transition);
-}
-
-.service-card:hover .service-icon {
-    background: var(--primary);
-    color: var(--white);
-}
-
-.service-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    color: var(--dark);           /* explicit color */
-}
-
-.service-desc {
-    font-size: 0.88rem;
-    color: var(--gray-light);
-    margin-bottom: 18px;
-    line-height: 1.6;
-}
-
-.service-price {
-    font-family: var(--font-heading);
-    font-size: 1.7rem;
-    font-weight: 700;
-    color: var(--primary);
-    margin-bottom: 18px;
-}
-
-.service-price small {
-    font-size: 0.72rem;
-    color: var(--gray-light);
-    font-family: var(--font-body);
-    font-weight: 400;
-    display: block;
-    margin-top: 3px;
-}
-
-.service-book-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--primary);
-    color: var(--white);
-    padding: 11px 28px;
-    border-radius: 50px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    transition: var(--transition);
-}
-
-.service-book-btn:hover {
-    background: var(--dark);
-    transform: translateY(-2px);
-}
-
-.service-card.featured {
-    border: 2px solid var(--gold);
-}
-
-.featured-badge {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    background: var(--gold);
-    color: var(--white);
-    padding: 4px 14px;
-    border-radius: 20px;
-    font-size: 0.68rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    z-index: 3;
-}
+        .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+        .service-card {
+            background:var(--white); border-radius:20px; padding:40px 28px;
+            text-align:center; box-shadow:var(--shadow); transition:var(--transition);
+            border:1px solid rgba(183,110,121,.06); position:relative; overflow:hidden;
+        }
+        .service-card::before {
+            content:''; position:absolute; top:0; left:0; width:100%; height:4px;
+            background:linear-gradient(90deg,var(--primary),var(--gold));
+            transform:scaleX(0); transition:transform .4s ease; transform-origin:left;
+        }
+        .service-card:hover::before { transform:scaleX(1); }
+        .service-card:hover { transform:translateY(-10px); box-shadow:var(--shadow-lg); }
+        .service-icon {
+            width:72px; height:72px; border-radius:50%; background:var(--accent);
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 18px; font-size:1.5rem; color:var(--primary); transition:var(--transition);
+        }
+        .service-card:hover .service-icon { background:var(--primary); color:var(--white); }
+        .service-card h3 { font-size:1.2rem; margin-bottom:10px; }
+        .service-desc { font-size:.88rem; color:var(--gray-light); margin-bottom:18px; line-height:1.6; }
+        .service-price { font-family:var(--font-heading); font-size:1.7rem; font-weight:700; color:var(--primary); margin-bottom:18px; }
+        .service-price small { font-size:.72rem; color:var(--gray-light); font-family:var(--font-body); font-weight:400; display:block; margin-top:3px; }
+        .service-book-btn {
+            display:inline-flex; align-items:center; gap:8px;
+            background:var(--primary); color:var(--white); padding:11px 28px;
+            border-radius:50px; font-size:.78rem; font-weight:500;
+            letter-spacing:1px; text-transform:uppercase; transition:var(--transition);
+        }
+        .service-book-btn:hover { background:var(--dark); transform:translateY(-2px); }
+        .service-card.featured { border:2px solid var(--gold); }
+        .featured-badge {
+            position:absolute; top:18px; right:18px; background:var(--gold); color:var(--white);
+            padding:4px 14px; border-radius:20px; font-size:.68rem; font-weight:600;
+            text-transform:uppercase; letter-spacing:1px;
+        }
 
         /* ============================================
            TESTIMONIALS SECTION
@@ -932,7 +821,7 @@
             background: url('images/.jpeg') center/cover no-repeat fixed;
         }
 
-        .location::before { content: ''; position: absolute; inset: 0; background: rgba(185, 184, 184, 0.225); }
+        .location::before { content: ''; position: absolute; inset: 0; background: rgb(255, 255, 255); }
         .location .container { position: relative; z-index: 1; }
         .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
         .location-map { border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-lg); height: 420px; }
@@ -1304,68 +1193,82 @@
         </div>
     </section>
 
-    <!-- ============================================
-         SERVICES SECTION
-    ============================================ -->
-    <section class="services" id="services">
-        <div class="container">
-            <div class="section-header fade-up">
-                <span class="section-subtitle">What We Offer</span>
-                <h2 class="section-title">Services & Pricing</h2>
-                <div class="section-line"></div>
-            </div>
-            <div class="services-grid">
-                <div class="service-card fade-up delay-1">
-                    <div class="service-icon"><i class="fas fa-hand-sparkles"></i></div>
-                    <h3>Gel X</h3>
-                    <p class="service-desc">Lightweight, durable gel extensions for a beautiful look that lingers.</p>
-                    <div class="service-price">₦7,000<small>Extra fee for length & complex designs</small></div>
-                    <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20order%20Press-On%20Nails" 
-   class="service-book-btn" target="_blank" rel="noopener">
-                </div>
-                <div class="service-card fade-up delay-2">
-                    <div class="service-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
-                    <h3>Stick On</h3>
-                    <p class="service-desc">Quick and easy application with quality results.</p>
-                    <div class="service-price">₦5,000<small>Extra fee for length & complex designs</small></div>
-                    <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20order%20Stick%20On%20Nails" 
-   class="service-book-btn" target="_blank" rel="noopener">
-                </div>
-                <div class="service-card fade-up delay-3">
-                    <div class="service-icon"><i class="fas fa-gem"></i></div>
-                    <h3>Acrylic Nails</h3>
-                    <p class="service-desc">Classic acrylic extensions; strong, sculpted, and beautiful.</p>
-                    <div class="service-price">From ₦9,000<small>Price increases with length</small></div>
-                    <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20order%20Acrylic%20Nails" 
-   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
-                </div>
-                <div class="service-card fade-up delay-4">
-                    <div class="service-icon"><i class="fas fa-palette"></i></div>
-                    <h3>Polygel</h3>
-                    <p class="service-desc">The perfect hybrid — lighter than acrylic, stronger than gel.</p>
-                    <div class="service-price">₦8,000<small>Higher fee for length & detailed designs</small></div>
-                    <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20order%20Polygel%20Nails" 
-   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
-                </div>
-                <div class="service-card fade-up delay-5">
-                    <div class="service-icon"><i class="fas fa-spa"></i></div>
-                    <h3>Pedicure</h3>
-                    <p class="service-desc">Treat your feet to a luxury pedicure with gorgeous nail art.</p>
-                    <div class="service-price">₦8,000<small>Pamper yourself from toe to tip</small></div>
-                    <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20book%20a%20Pedicure" 
-   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
-                </div>
-                <div class="service-card featured fade-up delay-6">
-                    <span class="featured-badge">⭐ Most Popular</span>
-                    <div class="service-icon"><i class="fas fa-star"></i></div>
-                    <h3>Presson Nails</h3>
-                    <p class="service-desc">Custom made, reusable nails. Send your inspo and we'll create a replica.</p>
-                    <div class="service-price">Custom Price<small>Based on your design & inspiration</small></div>
-                    <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20order%20custom%20Press-On%20Nails" class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Send Inspo</a>
-                </div>
-            </div>
+   <!-- ============================================
+     SERVICES SECTION
+============================================ -->
+<section class="services" id="services">
+    <div class="container">
+        <div class="section-header fade-up">
+            <span class="section-subtitle">What We Offer</span>
+            <h2 class="section-title">Services & Pricing</h2>
+            <div class="section-line"></div>
         </div>
-    </section>
+        <div class="services-grid">
+
+            <!-- GEL X — FIXED -->
+            <div class="service-card fade-up delay-1">
+                <div class="service-icon"><i class="fas fa-hand-sparkles"></i></div>
+                <h3>Gel X</h3>
+                <p class="service-desc">Lightweight, durable gel extensions for a beautiful look that lingers.</p>
+                <div class="service-price">₦7,000<small>Extra fee for length & complex designs</small></div>
+                <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20book%20Gel%20X" 
+                   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
+            </div>
+
+            <!-- STICK ON — FIXED -->
+            <div class="service-card fade-up delay-2">
+                <div class="service-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                <h3>Stick On</h3>
+                <p class="service-desc">Quick and easy application with quality results.</p>
+                <div class="service-price">₦5,000<small>Extra fee for length & complex designs</small></div>
+                <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20book%20Stick%20On%20Nails" 
+                   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
+            </div>
+
+            <!-- ACRYLIC — was fine -->
+            <div class="service-card fade-up delay-3">
+                <div class="service-icon"><i class="fas fa-gem"></i></div>
+                <h3>Acrylic Nails</h3>
+                <p class="service-desc">Classic acrylic extensions; strong, sculpted, and beautiful.</p>
+                <div class="service-price">From ₦9,000<small>Price increases with length</small></div>
+                <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20book%20Acrylic%20Nails" 
+                   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
+            </div>
+
+            <!-- POLYGEL — was fine -->
+            <div class="service-card fade-up delay-4">
+                <div class="service-icon"><i class="fas fa-palette"></i></div>
+                <h3>Polygel</h3>
+                <p class="service-desc">The perfect hybrid — lighter than acrylic, stronger than gel.</p>
+                <div class="service-price">₦8,000<small>Higher fee for length & detailed designs</small></div>
+                <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20book%20Polygel%20Nails" 
+                   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
+            </div>
+
+            <!-- PEDICURE — was fine -->
+            <div class="service-card fade-up delay-5">
+                <div class="service-icon"><i class="fas fa-spa"></i></div>
+                <h3>Pedicure</h3>
+                <p class="service-desc">Treat your feet to a luxury pedicure with gorgeous nail art.</p>
+                <div class="service-price">₦8,000<small>Pamper yourself from toe to tip</small></div>
+                <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20book%20a%20Pedicure" 
+                   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Book Now</a>
+            </div>
+
+            <!-- PRESS-ON — was fine -->
+            <div class="service-card featured fade-up delay-6">
+                <span class="featured-badge">⭐ Most Popular</span>
+                <div class="service-icon"><i class="fas fa-star"></i></div>
+                <h3>Presson Nails</h3>
+                <p class="service-desc">Custom made, reusable nails. Send your inspo and we'll create a replica.</p>
+                <div class="service-price">Custom Price<small>Based on your design & inspiration</small></div>
+                <a href="https://api.whatsapp.com/send?phone=2348140554351&text=Hi%20Kim%2C%20I%20would%20like%20to%20order%20custom%20Press-On%20Nails" 
+                   class="service-book-btn" target="_blank" rel="noopener"><i class="fab fa-whatsapp"></i> Send Inspo</a>
+            </div>
+
+        </div>
+    </div>
+</section>
 
     <!-- ============================================
          TESTIMONIALS SECTION
